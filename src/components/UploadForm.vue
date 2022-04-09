@@ -1,7 +1,6 @@
 <template>
-     <section id="msg" class=" form-control hide alert" >
-        <li v-for="error in errorlist">{{error}}</li>
-     </section>
+     <span id="msg" class=" form-control hide alert" >
+     </span>
     <form @submit.prevent="uploadPhoto" method="POST" id="uploadForm" enctype = "multipart/form-data">
         <div class="form-group">
             <label for="description">Example textarea</label>
@@ -24,7 +23,6 @@
         data() {
             return {
                 
-                errorlist:[],
                 csrf_token: ''
             };
         },
@@ -33,7 +31,7 @@
                 let uploadForm = document.getElementById('uploadForm');
                 let form_data = new FormData(uploadForm);
                 let self = this;
-                let alertcontainer =  document.querySelector('section#msg');
+                let alertcontainer =  document.querySelector('span#msg');
                 fetch("/api/upload", {
                     method: 'POST',
                     body: form_data,
@@ -48,17 +46,24 @@
                     // display a success message
                     alertcontainer.classList.remove('hide');
                     if (Array.isArray(data)){
+                        alertcontainer.innerHTML = '';
                         self.errorlist = data;
                         alertcontainer.classList.remove('alert-success');
                         alertcontainer.classList.add('alert-danger');
-                        alertcontainer.innerHTML= data;
+                        let errorlist = data;
+                        for (let err=0; err<errorlist.length; err++){
+                            const erroritem = document.createElement("li");
+                            const node = document.createTextNode(errorlist[err]);
+                            erroritem.appendChild(node);
+                            alertcontainer.appendChild(erroritem);
+                        }
+                       
                     }
                     else{
                         alertcontainer.classList.add('alert-success');
                         alertcontainer.classList.remove('alert-danger');
                         alertcontainer.innerHTML= data.message;
                     }
-                    console.log(data);
                 })
                 .catch(function (error) {
                     console.log(error);
