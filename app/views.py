@@ -8,6 +8,7 @@ This file creates your application.
 from app import app
 from flask import render_template, request, jsonify, send_file
 from app.forms import UploadForm
+from flask_wtf.csrf import generate_csrf
 from werkzeug.utils import secure_filename
 import os
 
@@ -21,31 +22,28 @@ def index():
     return jsonify(message="This is the beginning of our API")
 
 
-@app.route(' /api/upload', methods=['POST'])
+@app.route('/api/upload', methods=['POST'])
 def upload():
+    
     if request.method == "POST":
         formobj = UploadForm()
         if formobj.validate_on_submit():
-            if fileobj and sanitizedname != "" :
-                fileobj = request.files['photo']
-                sanitizedname = secure_filename(fileobj.filename)
+            fileobj = request.files['photo']
+            sanitizedname = secure_filename(fileobj.filename)
+            if fileobj and (sanitizedname != "" or sanitizedname != " "):
                 fileobj.save(os.path.join(app.config['UPLOAD_FOLDER'], sanitizedname))
-                return {
+                feedback= {
                     "message": "File Upload Successful",
                     "filename": sanitizedname,
-                    "description": request.form.description
+                    "description": formobj.description.data
                 }
-        return {
-            "errors": [
-                {
-                    "message": "Illegal file detected",
-                },
-                {
-                    "message": "Request Not Allowed, Try Again Later!",   
-                }
-            ]
-        }
-            
+                return jsonify(feedback)
+        return jsonify(form_errors(formobj))
+    return jsonify({'message': 'This is an illegal request'})
+
+@app.route('/api/csrf-token', methods=['GET'])
+def get_csrf():
+    return jsonify({'csrf_token': generate_csrf()})           
     
 
 
