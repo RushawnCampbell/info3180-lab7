@@ -64,6 +64,7 @@
                         alertcontainer.classList.remove('alert-danger');
                         alertcontainer.innerHTML= data.message;
                     }
+                    console.log(data);
                 })
                 .catch(function (error) {
                     console.log(error);
