@@ -1,7 +1,7 @@
 <template>
-     <span id="msg" class=" form-control hide alert" >
+     <span id="msg" class=" form-control alert" >
      </span>
-    <form @submit.prevent="uploadPhoto" method="POST" id="uploadForm" enctype = "multipart/form-data">
+    <form @submit.prevent="uploadPhoto" method="POST" id="uploadForm" >
         <div class="form-group">
             <label for="description">description</label>
             <textarea class="form-control" id="description" rows="3" name="description" ></textarea>
