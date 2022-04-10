@@ -3,12 +3,12 @@
      </span>
     <form @submit.prevent="uploadPhoto" method="POST" id="uploadForm" >
         <div class="form-group">
-            <label for="description">description</label>
+            <label for="description">Description</label>
             <textarea class="form-control" id="description" rows="3" name="description" ></textarea>
         </div>
 
         <div class="form-group">
-            <label for="photo">photo</label>
+            <label for="photo">Photo Upload</label><br>
             <input type="file" class="form-control-file" id="photo"  name="photo" >
         </div>
 
