@@ -51,15 +51,32 @@
                         alertcontainer.classList.remove('alert-success');
                         alertcontainer.classList.add('alert-danger');
                         let errorlist = data;
+                        let fields = [];
                         for (let err=0; err<errorlist.length; err++){
                             const erroritem = document.createElement("li");
                             const node = document.createTextNode(errorlist[err]);
                             erroritem.appendChild(node);
                             alertcontainer.appendChild(erroritem);
+                            fields.push(errorlist[err].split(" ")[3]);
+                        }
+                        console.log(fields);
+                        if (fields.includes("description") && !fields.includes("photo")){
+                            document.querySelector('#description').classList.add('errhighlight');
+                            document.querySelector('#photo').classList.remove('errhighlight');
+                        }
+                        if(fields.includes("photo") && !fields.includes("description")){
+                            document.querySelector('#photo').classList.add('errhighlight');
+                            document.querySelector('#description').classList.remove('errhighlight');
+                        }
+                        if (fields.includes("description") && fields.includes("photo")){
+                            document.querySelector('#description').classList.add('errhighlight');
+                            document.querySelector('#photo').classList.add('errhighlight');
                         }
                        
                     }
                     else{
+                        document.querySelector('#description').classList.remove('errhighlight');
+                        document.querySelector('#photo').classList.remove('errhighlight');
                         alertcontainer.classList.add('alert-success');
                         alertcontainer.classList.remove('alert-danger');
                         alertcontainer.innerHTML= data.message;
@@ -93,6 +110,10 @@
 
 form *{
     margin-bottom: 1em;
+}
+
+.errhighlight{
+    box-shadow: #F8D7DA 0px 3px 6px, #F8D7DA 0px 3px 6px;
 }
 
 </style>
