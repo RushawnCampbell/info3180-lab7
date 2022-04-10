@@ -30,7 +30,7 @@ def upload():
         if formobj.validate_on_submit():
             fileobj = request.files['photo']
             sanitizedname = secure_filename(fileobj.filename)
-            if fileobj and (sanitizedname != "" or sanitizedname != " "):
+            if fileobj and (sanitizedname != "" and sanitizedname != " "):
                 fileobj.save(os.path.join(app.config['UPLOAD_FOLDER'], sanitizedname))
                 feedback= {
                     "message": "File Upload Successful",

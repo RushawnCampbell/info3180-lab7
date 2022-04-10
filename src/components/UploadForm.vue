@@ -3,12 +3,12 @@
      </span>
     <form @submit.prevent="uploadPhoto" method="POST" id="uploadForm" enctype = "multipart/form-data">
         <div class="form-group">
-            <label for="description">Example textarea</label>
+            <label for="description">description</label>
             <textarea class="form-control" id="description" rows="3" name="description" ></textarea>
         </div>
 
         <div class="form-group">
-            <label for="photo">Example label</label>
+            <label for="photo">photo</label>
             <input type="file" class="form-control-file" id="photo"  name="photo" >
         </div>
 
@@ -89,5 +89,9 @@
 </script>
 
 <style>
+
+form *{
+    margin-bottom: 1em;
+}
 
 </style>
